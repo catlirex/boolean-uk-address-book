@@ -217,6 +217,32 @@ function renderEditForm(contact){
       
      patchContactToServer(contact.id, updatedContact,contact.address.id, updatedAddress)
   })
+
+  delBtn.addEventListener("click", function(){
+    fetch(`http://localhost:3000/contacts/${contact.id}`,{
+      method: 'DELETE',
+    })
+    .then(response => response.json())
+    .catch((error) => {
+      console.log(error)
+      alert("There is something wrong.....")
+    });  
+
+    fetch(`http://localhost:3000/addresses/${contact.address.id}`, {
+      method: 'DELETE',
+    })
+    .then(response => response.json())
+    .then(function(){
+      let contactList = document.querySelector(".contacts-list")
+      contactList.remove()
+      getContacts()
+      viewSection.innerHTML = ""
+    })
+    .catch((error) => {
+            console.log(error)
+            alert("There is something wrong.....")
+          });  
+  })
 }
 
 function patchContactToServer(contactID, updatedContact, addressID, updatedAddress){
@@ -240,17 +266,23 @@ function patchContactToServer(contactID, updatedContact, addressID, updatedAddre
       })
       .then(response => response.json())
       .then(function(json){
+        let contactList = document.querySelector(".contacts-list")
+        contactList.remove()
         getContacts()
         state.selectedContact = serverUpdatedContact
         state.selectedContact.address = json
-        let contactList = document.querySelector(".contacts-list")
-        contactList.innerHTML = ""
-        
         renderContactView()
-      })      
+      }) 
+      .catch((error) => {
+        console.log(error)
+        alert("There is something wrong.....")
+      });       
     }
   })      
-
+  .catch((error) => {
+    console.log(error)
+    alert("There is something wrong.....")
+  });  
   }
 }
 
@@ -373,16 +405,23 @@ function postNewContact(newContact, newAddress){
     })
       .then(response => response.json())
       .then(function(json){
+        let contactList = document.querySelector(".contacts-list")
+        contactList.remove()
         getContacts()
         state.selectedContact = json
         state.selectedContact.address = newAddressFromServer
-        let contactList = document.querySelector(".contacts-list")
-        contactList.innerHTML = ""
         
         renderContactView()
       })      
-      
+      .catch((error) => {
+        console.log(error)
+        alert("There is something wrong.....")
+      });  
   })
+  .catch((error) => {
+    console.log(error)
+    alert("There is something wrong.....")
+  });  
 }
 // [TODO] Write Code
 

@@ -4,14 +4,14 @@
       "id": "1",
       "firstName": "Jasmine",
       "lastName": "LI",
-      "blockContact": true,
+      "blockContact": false,
       "addressId": 1
     },
     {
       "id": "2",
       "firstName": "The",
       "lastName": "Queen",
-      "blockContact": false,
+      "blockContact": true,
       "addressId": 2
     }
   ],
